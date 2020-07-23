@@ -10,18 +10,18 @@ import random
 def Bump(driver):
 	page_count=1
 	url='https://backpack.tf/classifieds?page='+str(page_count)+"&steamid=76561198086548576"
-	time.sleep(1)
 	driver.get_screenshot_as_file("gg.png")
 	while(True):
 		url='https://backpack.tf/classifieds?page='+str(page_count)+"&steamid=76561198086548576"
 		driver.get(url)
+		time.sleep(1)
 		soup=BeautifulSoup(driver.page_source,'html.parser')
 		buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
 		if(len(buttons)>0):
 			action=ActionChains(driver)
 			for button in buttons:
 				# print(button["href"])
-				time.sleep(2)
+				time.sleep(1)
 				# buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
 				bplink='https://backpack.tf'+button["href"]
 				text=".//a[@href=\'"+button["href"]+"\']"
@@ -42,7 +42,7 @@ url = 'https://backpack.tf/classifieds?page=1"&steamid=76561198086548576'
 chrome_options = Options()
 chrome_options.add_argument("headless")
 chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--user-data-dir=./chrome-data")
+chrome_options.add_argument("--user-data-dir=C:\\Users\\Anas\\OneDrive\\Desktop\\Python Script\\chrome-data")
 driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=chrome_options)
 driver.get(url)
 
