@@ -40,13 +40,13 @@ def Bump(driver):
 
 url = "https://steamcommunity.com/openid/login?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http%3A%2F%2Fbackpack.tf%2Flogin&openid.realm=http%3A%2F%2Fbackpack.tf&openid.ns.sreg=http%3A%2F%2Fopenid.net%2Fextensions%2Fsreg%2F1.1&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select"
 chrome_options = Options()
-# chrome_options.add_argument("headless")
+chrome_options.add_argument("headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--user-data-dir=./chrome-data")
 driver = webdriver.Chrome(options=chrome_options)
 driver.get(url)
 
-username=getpass.getpass("Enter username:")
+username=input("Enter username:")
 password=getpass.getpass("Enter pass:")
 # Find username textbox
 driver.get_screenshot_as_file("log.png")
