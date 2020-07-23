@@ -42,7 +42,7 @@ url = 'https://backpack.tf/classifieds?page=1"&steamid=76561198086548576'
 chrome_options = Options()
 chrome_options.add_argument("headless")
 chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--user-data-dir=./Graph_Data/chrome-data")
+chrome_options.add_argument("--user-data-dir=./chrome-data")
 driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=chrome_options)
 driver.get(url)
 
