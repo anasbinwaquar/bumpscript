@@ -10,6 +10,8 @@ import random
 def Bump(driver):
 	page_count=1
 	url='https://backpack.tf/classifieds?page='+str(page_count)+"&steamid=76561198086548576"
+	time.sleep(1)
+	driver.get_screenshot_as_file("gg.png")
 	while(True):
 		url='https://backpack.tf/classifieds?page='+str(page_count)+"&steamid=76561198086548576"
 		driver.get(url)
@@ -19,8 +21,8 @@ def Bump(driver):
 			action=ActionChains(driver)
 			for button in buttons:
 				# print(button["href"])
-				time.sleep(random.randint(0,10))
-				buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
+				time.sleep(2)
+				# buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
 				bplink='https://backpack.tf'+button["href"]
 				text=".//a[@href=\'"+button["href"]+"\']"
 				clickpath='//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a[2]'
@@ -30,23 +32,24 @@ def Bump(driver):
 				except:
 					time.sleep(1)
 					driver.find_element_by_xpath('//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a').click()
-				time.sleep(random.randint(0,10))
-				time.sleep(2)
+				time.sleep(random.randint(1,3))
 			page_count+=1
 		else:
 			break
 	return
 
-url = "https://backpack.tf/premium/search?page=3&item=Fabricator"
+url = 'https://backpack.tf/classifieds?page=1"&steamid=76561198086548576'
 chrome_options = Options()
-# chrome_options.add_argument("headless")
-# chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("user-data-dir=C:\\Users\\Anas\\Desktop\\Web crawl Using Python\\chrome-data")
-driver = webdriver.Chrome(options=chrome_options)
+chrome_options.add_argument("headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--user-data-dir=C:\\Users\\Anas\\OneDrive\\Desktop\\Python Script\\chrome-data")
+driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=chrome_options)
 driver.get(url)
+
 # username=getpass.getpass("Enter username:")
 # password=getpass.getpass("Enter pass:")
 # # Find username textbox
+# driver.get_screenshot_as_file("log.png")
 # username_textbox = driver.find_element_by_id("steamAccountName")
 # username_textbox.send_keys(username)
 
@@ -70,13 +73,12 @@ driver.get(url)
 # time.sleep(10)
 # driver.get('https://backpack.tf/classifieds?steamid=76561198086548576')
 # time.sleep(5)
-
 Bump(driver)
-print("B")
+print("Bumped")
 while(True):
 	delay=random.randint(4,15)
 	TT=1800+(delay*60)
-	print("Total time ",TT)
+	print("Total time ",TT/60)
 	time.sleep(TT)
 	Bump(driver)
-	print("B after ",TT)
+	print("Bumped after ",TT/60)
