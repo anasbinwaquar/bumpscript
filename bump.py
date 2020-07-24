@@ -6,25 +6,26 @@ import time
 from selenium.webdriver import ActionChains
 import getpass
 import random
+from datetime import datetime
 
 def Bump(driver):
 	page_count=1
-	url='https://backpack.tf/classifieds?page='+str(page_count)+"&steamid=76561198086548576"
+	url='https://backpack.tf/classifieds?page='+str(page_count)+'&steamid=76561198086548576'
 	time.sleep(1)
+	driver.get(url)
 	while(True):
 		url='https://backpack.tf/classifieds?page='+str(page_count)+"&steamid=76561198086548576"
-		driver.get(url)
 		soup=BeautifulSoup(driver.page_source,'html.parser')
 		buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
-		if(len(buttons)>0):
-			action=ActionChains(driver)
-			for button in buttons:
-				# print(button["href"])
-				# buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
-				if(page_count>1):
-					driver.get(url)
-				text=".//a[@href=\'"+button["href"]+"\']"
-				clickpath='//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a[2]'
+		for button in buttons:
+			# print(button["href"])
+			# buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
+			text=".//a[@href=\'"+button["href"]+"\']"
+			clickpath='//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a[2]'
+			time.sleep(1)
+			if(page_count>1):
+				driver.get(url)
+			try:
 				driver.find_element_by_xpath(text).click()
 				try:
 					driver.find_element_by_xpath(clickpath).click()
@@ -32,18 +33,25 @@ def Bump(driver):
 					time.sleep(1)
 					driver.find_element_by_xpath('//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a').click()
 				time.sleep(random.randint(1,3))
-			page_count+=1
-		else:
+			except Exception as e:
+				print(e)
+		disabled=driver.find_elements_by_xpath("//main[@class='container']/child::nav/child::ul/child::li[@class='disabled']/child::a/child::i[@class='fa fa-angle-right']")
+		if(len(disabled)>=1):
 			break
+		buttons.clear()
+		time.sleep(1)
+		page_count+=1
+		next_arrow=driver.find_element_by_xpath("//i[@class='fa fa-angle-right']").click()
+		
 	return
 
-url = 'https://backpack.tf/classifieds?page=1"&steamid=76561198086548576'
+url = 'https://backpack.tf/classifieds?page=1&steamid=76561198086548576'
 chrome_options = Options()
-chrome_options.add_argument("headless")
-chrome_options.add_argument("--no-sandbox")
+# chrome_options.add_argument("headless")
+# chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--user-data-dir=C:\\Users\\Anas\\OneDrive\\Desktop\\Python Script\\chrome-data")
 driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=chrome_options)
-driver.get(url)
+# driver.get(url)
 
 # username=getpass.getpass("Enter username:")
 # password=getpass.getpass("Enter pass:")
@@ -73,11 +81,14 @@ driver.get(url)
 # driver.get('https://backpack.tf/classifieds?steamid=76561198086548576')
 # time.sleep(5)
 Bump(driver)
+bump=0
+bump+=1
 print("Bumped")
 while(True):
-	delay=random.randint(4,15)
+	delay=random.randint(1,5)
 	TT=1800+(delay*60)
-	print("Total time ",TT/60)
+	print("Total delay time ",TT/60,'mins')
 	time.sleep(TT)
 	Bump(driver)
-	print("Bumped after ",TT/60)
+	bump+=1
+	print("Bumped after ",TT/60,' Bump count: ',bump)
