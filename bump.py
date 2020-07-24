@@ -8,7 +8,12 @@ import getpass
 import random
 from datetime import datetime
 
-def Bump(driver):
+def Bump():
+	chrome_options = Options()
+	chrome_options.add_argument("headless")
+	chrome_options.add_argument("--no-sandbox")
+	chrome_options.add_argument("--user-data-dir=C:\\Users\\Anas\\OneDrive\\Desktop\\Python Script\\chrome-data")
+	driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=chrome_options)
 	page_count=1
 	url='https://backpack.tf/classifieds?page='+str(page_count)+'&steamid=76561198086548576'
 	time.sleep(1)
@@ -18,8 +23,6 @@ def Bump(driver):
 		soup=BeautifulSoup(driver.page_source,'html.parser')
 		buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
 		for button in buttons:
-			# print(button["href"])
-			# buttons=soup.findAll('a',{"class":"btn btn-xs btn-bottom btn-default listing-relist listing-bump"})
 			text=".//a[@href=\'"+button["href"]+"\']"
 			clickpath='//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a[2]'
 			time.sleep(1)
@@ -32,25 +35,19 @@ def Bump(driver):
 				except:
 					time.sleep(1)
 					driver.find_element_by_xpath('//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a').click()
-				time.sleep(random.randint(1,3))
+				time.sleep(random.randint(1,2))
 			except Exception as e:
 				print(e)
 		disabled=driver.find_elements_by_xpath("//main[@class='container']/child::nav/child::ul/child::li[@class='disabled']/child::a/child::i[@class='fa fa-angle-right']")
 		if(len(disabled)>=1):
 			break
 		buttons.clear()
-		time.sleep(1)
 		page_count+=1
-		next_arrow=driver.find_element_by_xpath("//i[@class='fa fa-angle-right']").click()
-		
+		next_arrow=driver.find_element_by_xpath("//i[@class='fa fa-angle-right']").click()	
+	driver.quit()
 	return
 
 url = 'https://backpack.tf/classifieds?page=1&steamid=76561198086548576'
-chrome_options = Options()
-# chrome_options.add_argument("headless")
-# chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--user-data-dir=C:\\Users\\Anas\\OneDrive\\Desktop\\Python Script\\chrome-data")
-driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=chrome_options)
 # driver.get(url)
 
 # username=getpass.getpass("Enter username:")
@@ -80,7 +77,7 @@ driver = webdriver.Chrome(executable_path='./driver/chromedriver.exe',options=ch
 # time.sleep(10)
 # driver.get('https://backpack.tf/classifieds?steamid=76561198086548576')
 # time.sleep(5)
-Bump(driver)
+Bump()
 bump=0
 bump+=1
 print("Bumped")
@@ -89,6 +86,6 @@ while(True):
 	TT=1800+(delay*60)
 	print("Total delay time ",TT/60,'mins')
 	time.sleep(TT)
-	Bump(driver)
+	Bump()
 	bump+=1
 	print("Bumped after ",TT/60,' Bump count: ',bump)
