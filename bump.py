@@ -25,7 +25,7 @@ def Bump():
 		for button in buttons:
 			text=".//a[@href=\'"+button["href"]+"\']"
 			clickpath='//*[@id="page-content"]/div/div/div/div[2]/div/div[2]/div[2]/a[2]'
-			time.sleep(1)
+			time.sleep(2)
 			if(page_count>1):
 				driver.get(url)
 			try:
@@ -38,12 +38,18 @@ def Bump():
 				time.sleep(random.randint(1,2))
 			except Exception as e:
 				print(e)
-		disabled=driver.find_elements_by_xpath("//main[@class='container']/child::nav/child::ul/child::li[@class='disabled']/child::a/child::i[@class='fa fa-angle-right']")
+		try:
+			disabled=driver.find_elements_by_xpath("//main[@class='container']/child::nav/child::ul/child::li[@class='disabled']/child::a/child::i[@class='fa fa-angle-right']")
+		except:
+			pass
 		if(len(disabled)>=1):
 			break
 		buttons.clear()
 		page_count+=1
-		next_arrow=driver.find_element_by_xpath("//i[@class='fa fa-angle-right']").click()	
+		try:
+			next_arrow=driver.find_element_by_xpath("//i[@class='fa fa-angle-right']").click()	
+		except:
+			pass
 	driver.quit()
 	return
 
@@ -86,6 +92,11 @@ while(True):
 	TT=1800+(delay*60)
 	print("Total delay time ",TT/60,'mins')
 	time.sleep(TT)
-	Bump()
+	try:
+		Bump()
+		check=1
+	except:
+		Bump()
+		pass
 	bump+=1
 	print("Bumped after ",TT/60,' Bump count: ',bump)
