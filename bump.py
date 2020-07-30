@@ -86,17 +86,22 @@ url = 'https://backpack.tf/classifieds?page=1&steamid=76561198086548576'
 Bump()
 bump=0
 bump+=1
+exception=False
 print("Bumped")
 while(True):
 	delay=random.randint(1,5)
 	TT=1800+(delay*60)
 	print("Total delay time ",TT/60,'mins')
+	try:
+		if(exception==True):
+			Bump()
+			exception=False
 	time.sleep(TT)
 	try:
 		Bump()
 		check=1
 	except:
-		Bump()
+		exception=True
 		pass
 	bump+=1
 	print("Bumped after ",TT/60,' Bump count: ',bump)
